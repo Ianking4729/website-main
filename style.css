@@ -713,10 +713,21 @@ form{
   gap: 20px; /* Add space between boxes (optional) */
 }
 .card-inner{
-  width: auto;
+  background-size: cover; /* Ensures the image covers the width */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
   background-color: #f1f1f1;
   border-radius: 30px 30px 30px 30px;
   padding: 30px;
+}
+
+.card-inner:nth-child(1) {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('suab.jpeg');
+
+}
+
+.card-inner:nth-child(2) {
+  background-image: url('image1.jpg');
 }
 .card-des{
   max-width: 60%;
@@ -1015,6 +1026,16 @@ form{
     background-color: #f1f1f1;
     border-radius: 30px 30px 30px 30px;
     padding: 30px;
+  }
+
+  .card-des {
+    display: none; /* Ensure it's hidden on mobile by default */
+  }
+
+  .card-inner:hover + .card-des {
+    display: block; /* Show the description on hover */
+    opacity: 1;
+    transform: translateY(0); /* Animate downward */
   }
   .card-des{
     max-width: 100%;
