@@ -204,12 +204,37 @@ function magnify(imgID, zoom) {
   // i.e. prevent entering the top 20% of the image
   var minAllowedY = Math.max(h / zoom, img.height * 0.2);
   if (y < minAllowedY) { y = minAllowedY; }
-    /* Set the position of the magnifier glass: */
-    glass.style.left = (x - w) + "px";
-    glass.style.top = (y - h) + "px";
-    /* Display what the magnifier glass "sees": */
+    /* Compute an upward offset on touch/pointer so the user's thumb doesn't cover the glass.
+       Keep the magnifier's background centered at the touch point (x,y), but render the
+       visible glass a bit above the touch. */
+    var touchOffset = 0;
+    // pointer events: check e.pointerType for touch
+    if (e.pointerType && e.pointerType === 'touch') {
+      touchOffset = Math.min( Math.max(40, h * 0.6), 140 );
+    } else if (e.touches) {
+      // fallback when touch event object is used
+      touchOffset = Math.min( Math.max(40, h * 0.6), 140 );
+    }
+
+    // Position where the glass should be displayed (left/top) while background centers on (x,y)
+    var displayLeft = x - w;
+    var displayTop = y - h - touchOffset;
+
+    // Clamp display position so the glass stays within the image boundaries
+    var maxLeft = img.width - glass.offsetWidth;
+    var maxTop = img.height - glass.offsetHeight;
+    if (displayLeft < 0) displayLeft = 0;
+    if (displayLeft > maxLeft) displayLeft = maxLeft;
+    if (displayTop < 0) displayTop = 0;
+    if (displayTop > maxTop) displayTop = maxTop;
+
+    /* Set the position of the magnifier glass (visual position may be offset from touch): */
+    glass.style.left = displayLeft + "px";
+    glass.style.top = displayTop + "px";
+    /* Display what the magnifier glass "sees": keep background centered at actual x,y */
     glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
   }
+
 
   function getCursorPos(e) {
     var a, x = 0, y = 0;
