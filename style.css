@@ -431,7 +431,7 @@ form{
 }
 
 .skills h2{
-  font-size: 40px;
+  font-size: 45px !important;
   color: #58718d;
   font-weight: 700;
   margin-bottom: 20px;
@@ -446,7 +446,8 @@ form{
 
 .skills p {
   color:#000000;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 600;
   letter-spacing: 0.8px;
   line-height: 1.5em;
   margin: 14px 0 75px 0;
