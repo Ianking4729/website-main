@@ -68,6 +68,14 @@ const initSlider = () => {
 window.addEventListener("resize", initSlider);
 window.addEventListener("load", initSlider);
 
+// Initialize magnifier when window loads (after images are available)
+window.addEventListener('load', function() {
+  var img = document.getElementById('pro-img');
+  if (img) {
+    magnify('pro-img', 2);
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const menuBtn = document.querySelector(".menu");
   const navMenu = document.querySelector(".navbar");
@@ -138,3 +146,82 @@ document.addEventListener("DOMContentLoaded", function() {
     bottomObserver.observe(bottomRow);
   }
 });
+
+/* Magnifier Glass Script */
+
+function magnify(imgID, zoom) {
+  var img, glass, w, h, bw;
+  img = document.getElementById(imgID);
+
+  /* Create magnifier glass: */
+  // Avoid creating multiple glasses for the same image
+  glass = img.parentElement.querySelector('.img-magnifier-glass');
+  if (!glass) {
+    glass = document.createElement("DIV");
+    glass.setAttribute("class", "img-magnifier-glass");
+    img.parentElement.appendChild(glass);
+  }
+
+  /* Set background properties for the magnifier glass: */
+  glass.style.backgroundImage = "url('" + img.src + "')";
+  glass.style.backgroundRepeat = "no-repeat";
+  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+  bw = 3;
+  w = glass.offsetWidth / 2;
+  h = glass.offsetHeight / 2;
+
+  /* Mouse move handlers */
+  glass.addEventListener("mousemove", moveMagnifier);
+  img.addEventListener("mousemove", moveMagnifier);
+
+  /* Touch handlers: show on touchstart, move on touchmove, hide on touchend */
+  img.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    glass.style.display = 'block';
+    moveMagnifier(e);
+  }, { passive: false });
+  img.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    moveMagnifier(e);
+  }, { passive: false });
+  img.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    glass.style.display = 'none';
+  });
+  function moveMagnifier(e) {
+    var pos, x, y;
+    /* Prevent any other actions that may occur when moving over the image */
+    e.preventDefault();
+    /* Get the cursor's x and y positions: */
+    pos = getCursorPos(e);
+    x = pos.x;
+    y = pos.y;
+    /* Prevent the magnifier glass from being positioned outside the image: */
+    if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+    if (x < w / zoom) {x = w / zoom;}
+  if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);} 
+  // restrict how far up the magnifier can go: allow movement up to 80% from the bottom
+  // i.e. prevent entering the top 20% of the image
+  var minAllowedY = Math.max(h / zoom, img.height * 0.2);
+  if (y < minAllowedY) { y = minAllowedY; }
+    /* Set the position of the magnifier glass: */
+    glass.style.left = (x - w) + "px";
+    glass.style.top = (y - h) + "px";
+    /* Display what the magnifier glass "sees": */
+    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+  }
+
+  function getCursorPos(e) {
+    var a, x = 0, y = 0;
+    e = e || window.event;
+    /* Get the x and y positions of the image: */
+    a = img.getBoundingClientRect();
+    /* Use clientX/Y for consistent coordinates across touch/mouse */
+    var clientX = e.clientX || (e.touches && e.touches[0] && e.touches[0].clientX);
+    var clientY = e.clientY || (e.touches && e.touches[0] && e.touches[0].clientY);
+    /* Calculate the cursor's x and y coordinates, relative to the image: */
+    x = clientX - a.left;
+    y = clientY - a.top;
+    return {x : x, y : y};
+  }
+}

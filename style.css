@@ -329,8 +329,7 @@ form{
   color: black;
   letter-spacing: 0.2px;
   text-align: center;
-  background-color: white;
-  background-size: cover;
+  background-color: white; /* fallback color */
   padding: 0 40px;
   overflow: hidden;
 }
@@ -578,17 +577,43 @@ form{
   animation-range: entry 0;
 }
 
+.aboutMeIMG{
+  position: relative; /* container for absolute magnifier */
+}
+
 .pro-img {
   /* border-radius: 50px 50px 50px 50px;
   border: 20px solid #f0f0f0; */
 
-  max-width: 500px;
+  max-width: 1000px;
   width: 100%;
   min-width: 300px;
   height: auto;
   display: block;
 }
 
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #58718d;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 150px;
+  height: 150px;
+}
+
+/* hide by default on touch devices; will be shown on touchstart */
+.img-magnifier-glass {
+  display: block; /* desktop default */
+}
+
+@media (max-width: 768px) {
+  .img-magnifier-glass {
+    width: 120px;
+    height: 120px;
+    border-width: 2px;
+  }
+}
 
 .resume-page{
   background-color: #e9e9e9;
@@ -705,6 +730,7 @@ form{
 }
 .card-place{
   font-weight: bold;
+  
   padding-bottom: 5px;
 }
 
@@ -1649,12 +1675,11 @@ tr:nth-child(even){
     font-size: 15px;
     margin-bottom: 10px;
   } 
-  /*
+  
   .pro-img {
-  width: 170px;
+  width: 650px;
   height: auto;
   }
-  */  
   /*
   .about-container{
     padding: 50px 100px;
@@ -1808,6 +1833,11 @@ tr:nth-child(even){
 .footer-icon:hover img {
   filter: none;
   transform: scale(1.15);
+}
+
+/* specifically ensure the second icon returns to normal on hover */
+.foot-links a:nth-child(2):hover img {
+  filter: none;
 }
 
 .foot-copy p {
