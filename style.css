@@ -721,14 +721,23 @@ form{
   padding: 30px;
 }
 
-.card-inner:nth-child(1) {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('suab.jpeg');
-
+/* Target each .card-inner based on its position */
+.card-body:nth-of-type(1) .card-inner {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('NCATSC.jpg');
 }
 
-.card-inner:nth-child(2) {
-  background-image: url('image1.jpg');
+.card-body:nth-of-type(2) .card-inner {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('lowes.jpg');
 }
+
+.card-body:nth-of-type(3) .card-inner {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('capOneBLD.jpg');
+}
+
+.card-body:nth-of-type(4) .card-inner {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('adobe.jpeg');
+}
+
 .card-des{
   max-width: 60%;
   float: right;
@@ -736,14 +745,14 @@ form{
 }
 
 .card-pos{
-  font-size: 23px;
+  font-size: 25px;
   font-weight: bold;
-  color: #58718d;
+  color: #1c3352;
   padding-bottom: 15px;
 }
 .card-place{
   font-weight: bold;
-  
+  font-style: italic;
   padding-bottom: 5px;
 }
 
@@ -870,7 +879,9 @@ form{
   animation-direction: reverse;
 }
 
-
+.read-more-btn {
+  display: none;
+}
 
 @media only screen and (max-width: 768px) {
 
@@ -1027,16 +1038,29 @@ form{
     border-radius: 30px 30px 30px 30px;
     padding: 30px;
   }
-
+  /* Default styles for card-des */
   .card-des {
-    display: none; /* Ensure it's hidden on mobile by default */
+    display: none; /* Hidden by default */
+    opacity: 0;
+    transform: translateY(-20px); /* Position it slightly above */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* When visible, animate downward */
+  .card-des[style*="display: block"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .read-more-btn {
+    display: block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: rgb(98, 98, 98);
+    text-align: center;
+    background-color: transparent;
   }
 
-  .card-inner:hover + .card-des {
-    display: block; /* Show the description on hover */
-    opacity: 1;
-    transform: translateY(0); /* Animate downward */
-  }
   .card-des{
     max-width: 100%;
     float: right;
@@ -1045,9 +1069,9 @@ form{
   }
 
   .card-pos{
-    font-size: 18px;
+    font-size: 25px;
     font-weight: bold;
-    color: #58718d;
+    color: #1c3352;
     padding-bottom: 15px;
   }
   .card-place{

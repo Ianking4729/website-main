@@ -250,3 +250,20 @@ function magnify(imgID, zoom) {
     return {x : x, y : y};
   }
 }
+
+
+// Add click event listeners to all .card-inner elements
+document.querySelectorAll('.read-more-btn').forEach((button) => {
+  button.addEventListener('click', () => {
+    const cardDes = button.parentElement.nextElementSibling; // Select the .card-des element
+    if (cardDes.style.display === 'block') {
+      // Hide the description and show the button again
+      cardDes.style.display = 'none';
+      button.textContent = 'Click to Read More';
+    } else {
+      // Show the description and hide the button
+      cardDes.style.display = 'block';
+      button.textContent = 'Click to Read Less';
+    }
+  });
+});
