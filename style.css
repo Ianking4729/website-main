@@ -325,14 +325,14 @@ form{
 }
 
 .about-me {
-  font-size: 20px;
-  color: black;
+  color: 58718d;
   letter-spacing: 0.2px;
   text-align: center;
-  background-color: white; /* fallback color */
+  background-color: white;
   padding: 0 40px;
   overflow: hidden;
 }
+
 /*
 
 .about-container{
@@ -364,6 +364,7 @@ form{
   padding: 20px 0px;
   text-align: center;
   background: #ffffff;
+  color:#58718d ;
   height: auto;
   border-radius: 30px 30px 30px 30px;
   animation: appear linear;
